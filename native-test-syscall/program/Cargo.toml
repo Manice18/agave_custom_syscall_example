@@ -1,0 +1,13 @@
+[package]
+name = "native-test-syscall"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+borsh = "0.9.3"
+borsh-derive = "0.9.1"
+solana-program = { path = "../../solana-sdk/program", version = "2.3.0" }
+solana-system-interface = { path = "../../system/interface", version = "1.0.0", features = ["bincode"] }
