@@ -1,0 +1,19 @@
+[package]
+name = "solana-sdk-ids"
+description = "Solana SDK IDs"
+documentation = "https://docs.rs/solana-sdk-ids"
+version = "2.2.1"
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+solana-pubkey = { workspace = true, default-features = false }
+
+[lints]
+workspace = true

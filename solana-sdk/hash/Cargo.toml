@@ -1,0 +1,49 @@
+[package]
+name = "solana-hash"
+description = "Solana wrapper for the 32-byte output of a hashing algorithm."
+documentation = "https://docs.rs/solana-hash"
+version = "2.3.0"
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
+all-features = true
+rustdoc-args = ["--cfg=docsrs"]
+
+[features]
+borsh = ["dep:borsh", "std"]
+bytemuck = ["dep:bytemuck", "dep:bytemuck_derive"]
+default = ["std"]
+frozen-abi = ["dep:solana-frozen-abi", "dep:solana-frozen-abi-macro", "std"]
+serde = ["dep:serde", "dep:serde_derive"]
+std = []
+
+[dependencies]
+borsh = { workspace = true, optional = true }
+bytemuck = { workspace = true, optional = true }
+bytemuck_derive = { workspace = true, optional = true }
+five8 = { workspace = true }
+serde = { workspace = true, optional = true }
+serde_derive = { workspace = true, optional = true }
+solana-atomic-u64 = { workspace = true }
+solana-frozen-abi = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+solana-frozen-abi-macro = { workspace = true, optional = true, features = [
+    "frozen-abi",
+] }
+solana-sanitize = { workspace = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+js-sys = { workspace = true }
+wasm-bindgen = { workspace = true }
+
+[dev-dependencies]
+bs58 = { workspace = true, default-features = false, features = ["alloc"] }
+
+[lints]
+workspace = true

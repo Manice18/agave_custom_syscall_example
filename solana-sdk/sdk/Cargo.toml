@@ -1,0 +1,117 @@
+[package]
+name = "solana-sdk"
+description = "Solana SDK"
+documentation = "https://docs.rs/solana-sdk"
+readme = "README.md"
+version = "2.3.0"
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+include = ["src/**/*", "README.md"]
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
+all-features = true
+rustdoc-args = ["--cfg=docsrs"]
+
+[lib]
+crate-type = ["rlib"]
+
+[features]
+# "program" feature is a legacy feature retained to support v1.3 and older
+# programs.  New development should not use this feature.  Instead use the
+# solana-program crate
+program = []
+
+default = [
+    "borsh",
+    "full",  # functionality that is not compatible or needed for on-chain programs
+]
+full = [
+    "solana-signature",
+    "solana-pubkey/rand",
+    "dep:solana-keypair",
+    "dep:solana-offchain-message",
+    "dep:solana-presigner",
+    "dep:solana-seed-derivable",
+    "dep:solana-seed-phrase",
+    "dep:solana-shred-version",
+    "dep:solana-signer",
+    "dep:solana-transaction",
+    "dep:solana-transaction-error",
+]
+borsh = ["solana-program/borsh"]
+dev-context-only-utils = [
+    "solana-account/dev-context-only-utils",
+    "solana-transaction/dev-context-only-utils",
+]
+frozen-abi = [
+    "solana-fee-structure/frozen-abi",
+    "solana-account/frozen-abi",
+    "solana-inflation/frozen-abi",
+    "solana-program/frozen-abi",
+    "solana-short-vec/frozen-abi",
+    "solana-signature/frozen-abi",
+    "solana-transaction/frozen-abi",
+    "solana-transaction-error/frozen-abi",
+]
+
+[dependencies]
+bincode = { workspace = true }
+bs58 = { workspace = true }
+serde = { workspace = true }
+solana-account = { workspace = true, features = ["bincode"] }
+solana-epoch-info = { workspace = true, features = ["serde"] }
+solana-epoch-rewards-hasher = { workspace = true }
+solana-fee-structure = { workspace = true, features = ["serde"] }
+solana-inflation = { workspace = true, features = ["serde"] }
+solana-keypair = { workspace = true, optional = true, features = [
+    "seed-derivable",
+] }
+solana-message = { workspace = true, features = ["serde"] }
+solana-offchain-message = { workspace = true, optional = true, features = ["verify"] }
+solana-presigner = { workspace = true, optional = true }
+solana-program = { workspace = true }
+solana-program-memory = { workspace = true }
+solana-pubkey = { workspace = true, default-features = false, features = [
+    "std",
+] }
+solana-sanitize = { workspace = true }
+solana-sdk-ids = { workspace = true }
+solana-sdk-macro = { workspace = true }
+solana-seed-derivable = { workspace = true, optional = true }
+solana-seed-phrase = { workspace = true, optional = true }
+solana-serde = { workspace = true }
+solana-serde-varint = { workspace = true }
+solana-short-vec = { workspace = true }
+solana-shred-version = { workspace = true, optional = true }
+solana-signature = { workspace = true, features = [
+    "rand",
+    "serde",
+    "std",
+    "verify",
+], optional = true }
+solana-signer = { workspace = true, optional = true }
+solana-time-utils = { workspace = true }
+solana-transaction = { workspace = true, features = [
+    "blake3",
+    "serde",
+    "verify"
+], optional = true }
+solana-transaction-error = { workspace = true, features = [
+    "serde",
+], optional = true }
+thiserror = { workspace = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.1.1", features = ["wasm-bindgen"] }
+
+[dev-dependencies]
+solana-instructions-sysvar = { workspace = true, features = ["dev-context-only-utils"] }
+solana-program = { workspace = true, features = ["dev-context-only-utils"] }
+solana-sdk = { path = ".", features = ["dev-context-only-utils"] }
+
+[lints]
+workspace = true

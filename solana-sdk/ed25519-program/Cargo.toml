@@ -1,0 +1,22 @@
+[package]
+name = "solana-ed25519-program"
+description = "Instructions for the Solana ed25519 native program"
+documentation = "https://docs.rs/solana-ed25519-program"
+version = "2.2.3"
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[dependencies]
+bytemuck = { workspace = true }
+bytemuck_derive = { workspace = true }
+solana-instruction = { workspace = true, features = ["std"] }
+solana-sdk-ids = { workspace = true }
+
+[lints]
+workspace = true

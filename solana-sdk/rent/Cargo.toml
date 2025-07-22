@@ -1,0 +1,34 @@
+[package]
+name = "solana-rent"
+description = "Configuration for Solana network rent."
+documentation = "https://docs.rs/solana-rent"
+version = "2.2.1"
+authors = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[features]
+frozen-abi = ["dep:solana-frozen-abi", "dep:solana-frozen-abi-macro"]
+serde = ["dep:serde", "dep:serde_derive"]
+sysvar = ["dep:solana-sdk-ids", "dep:solana-sysvar-id"]
+
+[dependencies]
+serde = { workspace = true, optional = true }
+serde_derive = { workspace = true, optional = true }
+solana-frozen-abi = { workspace = true, optional = true }
+solana-frozen-abi-macro = { workspace = true, optional = true }
+solana-sdk-ids = { workspace = true, optional = true }
+solana-sdk-macro = { workspace = true }
+solana-sysvar-id = { workspace = true, optional = true, version = "2.2.1" }
+
+[dev-dependencies]
+solana-clock = { workspace = true }
+static_assertions = { workspace = true }
+
+[lints]
+workspace = true

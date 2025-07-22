@@ -1,0 +1,165 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  format_and_lint_client_js:
+    name: Format & Lint Client JS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          pnpm: true
+
+      - name: Format Client JS
+        run: make format-js
+
+      - name: Lint Client JS
+        run: make lint-js
+
+  format_and_lint_client_rust:
+    name: Format & Lint Client Rust
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          toolchain: format, lint
+
+      - name: Format
+        run: make format-clients-rust
+
+      - name: Lint / Clippy
+        run: make clippy-clients-rust
+
+      - name: Lint / Docs
+        run: make lint-docs-clients-rust
+
+      - name: Lint / Features
+        run: make lint-features-clients-rust
+
+  format_and_lint_interface:
+    name: Format & Lint Interface
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          toolchain: format, lint
+
+      - name: Format
+        run: make format-interface
+
+      - name: Lint / Clippy
+        run: make clippy-interface
+
+      - name: Lint / Docs
+        run: make lint-docs-interface
+
+      - name: Lint / Features
+        run: make lint-features-interface
+
+  wasm_interface:
+    name: Build Interface in WASM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          cargo-cache-key: cargo-wasm-interface
+          solana: true
+
+      - name: Install wasm-pack
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-pack
+
+      - name: Build Interface with wasm-pack
+        run: make build-wasm-interface
+
+  test_interface:
+    name: Test Interface
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          toolchain: test
+          cargo-cache-key: cargo-interface
+          solana: true
+
+      - name: Test Interface
+        run: make test-interface
+
+  generate_clients:
+    name: Check Client Generation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          pnpm: true
+          toolchain: format
+
+      - name: Generate Clients
+        run: pnpm generate:clients
+
+      - name: Check Working Directory
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+  test_client_js:
+    name: Test Client JS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          pnpm: true
+          solana: true
+
+      - name: Test Client JS
+        run: make test-js
+
+  test_client_rust:
+    name: Test Client Rust
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+        with:
+          cargo-cache-key: cargo-rust-client
+          toolchain: test
+          solana: true
+
+      - name: Test Client Rust
+        run: make test-clients-rust
