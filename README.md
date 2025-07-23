@@ -64,7 +64,7 @@ Custom syscalls allow you to add new low-level functionality to the Solana runti
 3.  Define your syscall in the `solana-sdk/define-syscall/src/definitions.rs`
 
     ```rust
-    // Custome Syscall
+    // Custom Syscall
     define_syscall!(fn sol_log_pubkey_as_unit8(pubkey_addr: *const u8));
     ```
 
@@ -131,6 +131,25 @@ Custom syscalls allow you to add new low-level functionality to the Solana runti
 
 ---
 
+## Note:
+
+- To avoid any build & versioning issues make the dependencies causing issues to point to local. For eg, in the solana-sdk I have pointed [solana-stake-interface](https://github.com/solana-program/stake) and [solana-system-interface](https://github.com/solana-program/system) to the ones I have cloned locally:
+  ```toml
+  solana-stake-interface = { path = "../stake/interface", version = "1.2.0", features = ["bincode"] }
+  solana-system-interface = { path = "../system/interface", version = "1.0.0" }
+  ```
+- In the stake and system repo I have make some dependencies point to local to avoid versioning issues:
+  - system
+  ```toml
+  solana-instruction = {path = "../solana-sdk/instruction"}
+  solana-pubkey = { path="../solana-sdk/pubkey", default-features = false }
+  solana-sysvar = {path = "../solana-sdk/sysvar", version = "2.2.1", features = ["bincode"] }
+  ```
+  - stake
+  ```toml
+  solana-sysvar-id = { path = "../../solana-sdk/sysvar-id", version = "2.2.1"}
+  ```
+
 ## Running the repo
 
 I have written a simple program in native rust to transfer sol via cpi, and there we have used this syscall.
@@ -161,7 +180,7 @@ I have written a simple program in native rust to transfer sol via cpi, and ther
 
    ```sh
    cd native-test-syscall/program
-   cargo build-bpf
+   cargo build-spf
    ```
 
 4. **Run the validator**
