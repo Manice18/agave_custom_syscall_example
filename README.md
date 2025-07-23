@@ -149,6 +149,10 @@ Custom syscalls allow you to add new low-level functionality to the Solana runti
   ```toml
   solana-sysvar-id = { path = "../../solana-sdk/sysvar-id", version = "2.2.1"}
   ```
+  - While running the solana-cli to deploy the program, make sure you are on the agave directory because your local solana-cli is not aware of the syscall, else you'll get the following error:
+  ```sh
+  Error: ELF error: ELF error: Unresolved symbol (sol_log_pubkey_as_unit8) at instruction #187 (ELF file offset 0x5d8)
+  ```
 
 ## Running the repo
 
@@ -180,7 +184,7 @@ I have written a simple program in native rust to transfer sol via cpi, and ther
 
    ```sh
    cd native-test-syscall/program
-   cargo build-spf
+   cargo build-sbf
    ```
 
 4. **Run the validator**
