@@ -35,7 +35,6 @@
 
 use crate::account_info::AccountInfo;
 pub use solana_msg::{msg, sol_log};
-use solana_pubkey::Pubkey;
 
 /// Print 64-bit values represented as hexadecimal to the log.
 #[inline]
@@ -100,14 +99,3 @@ pub fn sol_log_compute_units() {
     #[cfg(not(target_os = "solana"))]
     crate::program_stubs::sol_log_compute_units();
 }
-
-// // Custom Syscall
-// pub fn sol_log_pubkey_as_unit8(pubkey: &Pubkey) {
-//     #[cfg(target_os = "solana")]
-//     unsafe {
-//         crate::syscalls::sol_log_pubkey_as_unit8(pubkey.as_ref() as *const _ as *const u8)
-//     };
-
-//     #[cfg(not(target_os = "solana"))]
-//     crate::program_stubs::sol_log_pubkey_as_unit8(pubkey);
-// }

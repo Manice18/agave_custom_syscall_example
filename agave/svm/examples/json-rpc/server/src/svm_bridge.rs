@@ -4,8 +4,8 @@ use {
     solana_account::{Account, AccountSharedData, ReadableAccount},
     solana_bpf_loader_program::syscalls::{
         SyscallAbort, SyscallGetClockSysvar, SyscallInvokeSignedRust, SyscallLog,
-        SyscallLogBpfComputeUnits, SyscallLogPubkey, SyscallLogPubkeyAsUnit8, SyscallLogU64,
-        SyscallMemcpy, SyscallMemset, SyscallSetReturnData,
+        SyscallLogBpfComputeUnits, SyscallLogPubkey, SyscallLogU64, SyscallMemcpy, SyscallMemset,
+        SyscallSetReturnData,
     },
     solana_clock::{Clock, Slot, UnixTimestamp},
     solana_compute_budget::compute_budget::ComputeBudget,
@@ -199,9 +199,6 @@ pub fn create_custom_environment<'a>() -> BuiltinProgram<InvokeContext<'a>> {
         .expect("Registration failed");
     loader
         .register_function("sol_get_clock_sysvar", SyscallGetClockSysvar::vm)
-        .expect("Registration failed");
-    loader
-        .register_function("sol_log_pubkey_as_unit8", SyscallLogPubkeyAsUnit8::vm)
         .expect("Registration failed");
 }
 
