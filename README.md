@@ -154,6 +154,8 @@ Custom syscalls allow you to add new low-level functionality to the Solana runti
   Error: ELF error: ELF error: Unresolved symbol (sol_log_pubkey_as_unit8) at instruction #187 (ELF file offset 0x5d8)
   ```
 
+---
+
 ## Running the repo
 
 I have written a simple program in native rust to transfer sol via cpi, and there we have used this syscall.
@@ -234,9 +236,3 @@ I have written a simple program in native rust to transfer sol via cpi, and ther
 ## Disclaimer
 
 This project is for educational and experimental purposes only. Custom syscalls require modifying the Solana runtime and are not supported on mainnet or by default in public clusters.
-
----
-
-## License
-
-[MIT](./LICENSE) (or specify your license)
